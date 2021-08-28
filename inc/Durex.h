@@ -18,24 +18,28 @@
 #include <net/if.h>
 
 #define LOGIN "dbaffier"
+#define MAX_CLIENT 3
 
 #define ERROR_MSG(str) \
     printf(str);       \
     return (1);
 
-int     isCopy(void);
-void    createDurex(void);
-void    daemon_durex(void);
-void    shell(void);
+#define FNV_PRIME_32 16777619
+#define FNV_OFFSET_32 2166136261U
 
+int isCopy(void);
+void createDurex(void);
+void daemon_durex(void);
+void shell(void);
+uint32_t FNV32(const char *s);
 
-typedef struct  s_shell {
-
-    int         ss;
-    int         thread;
-    int                 opt;
-    int                 port;
-    struct sockaddr_in  server_addr;
-}               t_shell;
+typedef struct s_shell
+{
+    int ss;
+    int thread;
+    int opt;
+    int port;
+    struct sockaddr_in server_addr;
+} t_shell;
 
 #endif

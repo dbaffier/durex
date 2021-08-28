@@ -1,6 +1,6 @@
 #include "Durex.h"
 
-int     _lock;
+int _lock;
 
 static void sig_handler(int sig)
 {
@@ -11,24 +11,24 @@ static void sig_handler(int sig)
     exit(128 + sig);
 }
 
-void    daemon_durex(void)
+void daemon_durex(void)
 {
-    pid_t   pid;
+    pid_t pid;
 
     pid = fork();
-	if (pid < 0)
-		exit(1);
-	if (pid > 0)
-		exit(0);
-	if (setsid() < 0)
-		exit(1);
-
-	pid = fork();
-	if (pid < 0)
+    if (pid < 0)
         exit(1);
     if (pid > 0)
         exit(0);
-	/* Set new file permissions */
+    if (setsid() < 0)
+        exit(1);
+
+    pid = fork();
+    if (pid < 0)
+        exit(1);
+    if (pid > 0)
+        exit(0);
+    /* Set new file permissions */
     umask(0);
 
     chdir("/");
@@ -47,8 +47,8 @@ void    daemon_durex(void)
         exit(1);
     }
     close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
     int i = 0;
     while (++i < 32)
     {

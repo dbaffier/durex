@@ -1,10 +1,10 @@
 #include "Durex.h"
 
-extern int _lock;
-
 int main(int ac, char **av, char **env)
 {
-    printf("%d - %d\n", getuid(), geteuid());
+    printf("%d\n", FNV32("wellplayed"));
+    printf("%d\n", FNV32("wellplayed\0"));
+
     if (getuid() != 0 || geteuid() != 0)
     {
         ERROR_MSG("Durex can only be launch with root permissons\n");
@@ -26,6 +26,6 @@ int main(int ac, char **av, char **env)
     (void)ac;
     (void)av;
     (void)env;
-    printf("%d\n", _lock);
+    // printf("%d\n", _lock);
     return (0);
 }

