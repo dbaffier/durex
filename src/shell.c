@@ -109,20 +109,18 @@ void handle_clients(t_shell *shell)
         }
         for (i = 0; i < MAX_CLIENT; i++)
         {
+            // if (client_validate[i] == 1)
+                // send(sd, "$>", 2, 0);
             memset(buffer, 0, sizeof(buffer));
             sd = client_socket[i];
-
             if (FD_ISSET(sd, &readfds))
             {
-                //Check if it was for closing , and also read the
-                //incoming message
                 if ((valread = recv(sd, buffer, 1024, 0)) == 0)
                 {
+                    syslog(LOG_INFO, "buff{%s}", buffer);
                     //Somebody disconnected , get his details and print
                     getpeername(sd, (struct sockaddr *)&shell->server_addr,
                                 (socklen_t *)&addr_len);
-                    // printf("Host disconnected , ip %s , port %d \n",
-                    //    inet_ntoa(address.sin_addr), ntohs(address.sin_port));
 
                     //Close the socket and mark as 0 in list for reuse
                     close(sd);
@@ -130,22 +128,30 @@ void handle_clients(t_shell *shell)
                 }
                 else
                 {
-                    buffer[valread] = '\0';
-                    buffer[valread - 1] = '\0';
-
+                    if (valread > 1)
+                        buffer[valread - 1] = '\0';
+                    else
+                        buffer[1] = '\0';
                     syslog(LOG_INFO, "buffer : [%s]", buffer);
                     if (client_validate[i] == 0)
                     {
                         char pass[12];
                         memset(pass, 0, sizeof(pass));
                         sprintf(pass, "%d", FNV32(buffer));
-                        if (strcmp(pass, "1824374622") == 0)
-                            send(sd, "Congratz\n", 9, 0);
+                        if (strcmp(pass, "1298295291") == 0)
+                        {
+                            send(sd, "Congratz\n$>", 11, 0);
+                            client_validate[i] = 1;
+                        }
                         else
-                            send(sd, "Wrong\n", 6, 0);
+                            send(sd, "Wrong\npassword:", 15, 0);
                     }
                     else
-                        send(sd, buffer, strlen(buffer), 0);
+                    {
+                        // evaluate builtin;
+                        builtin(sd, buffer);
+                        // send(sd, buffer, strlen(buffer), 0);
+                    }
                 }
             }
         }

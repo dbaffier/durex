@@ -17,6 +17,7 @@
 #include <sys/types.h>
 #include <net/if.h>
 
+
 #define LOGIN "dbaffier"
 #define MAX_CLIENT 3
 
@@ -32,6 +33,7 @@ void createDurex(void);
 void daemon_durex(void);
 void shell(void);
 uint32_t FNV32(const char *s);
+void builtin(int sd, char *buffer);
 
 typedef struct s_shell
 {

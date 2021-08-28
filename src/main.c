@@ -2,7 +2,7 @@
 
 int main(int ac, char **av, char **env)
 {
-    printf("%d\n", FNV32("wellplayed"));
+    printf("%d\n", FNV32("ultramar"));
     printf("%d\n", FNV32("wellplayed\0"));
 
     if (getuid() != 0 || geteuid() != 0)

@@ -15,7 +15,8 @@ SRC =	main.c			\
 		createDurex.c	\
 		daemon.c		\
 		shell.c			\
-		fnv.c
+		fnv.c			\
+		builtin.c
 
 OBJS = $(addprefix $(OBJS_DIR), $(SRC:.c=.o))
 
